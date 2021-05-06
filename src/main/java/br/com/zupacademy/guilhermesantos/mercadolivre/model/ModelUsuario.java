@@ -33,6 +33,11 @@ public class ModelUsuario implements Serializable {
 
 	private LocalDateTime dataRegistro = LocalDateTime.now();
 	
+	public ModelUsuario(String login, String senha) {
+		this.login = login;
+		this.senha = senha;
+	}
+	
 	@Deprecated
 	public ModelUsuario() {
 		
