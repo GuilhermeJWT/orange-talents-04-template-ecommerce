@@ -43,20 +43,4 @@ public class ModelUsuario implements Serializable {
 		
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public LocalDateTime getDataRegistro() {
-		return dataRegistro;
-	}
-
 }

@@ -27,7 +27,6 @@ public class UsuarioController {
 	public ResponseEntity<ModelUsuarioDTO> salvaUsuario(@RequestBody @Valid ModelUsuarioDTO modelUsuarioDTO){
 		
 		ModelUsuario modelUsuario = modelUsuarioDTO.converter();
-		
 		manager.persist(modelUsuario);
 		
 		return new ResponseEntity<>(HttpStatus.OK);

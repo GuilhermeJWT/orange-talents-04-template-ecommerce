@@ -26,12 +26,4 @@ public class ModelUsuarioDTO {
 		this.senha = senha;
 	}
 	
-	public String getSenha() {
-		return senha;
-	}
-	
-	public String getLogin() {
-		return login;
-	}
-
 }
