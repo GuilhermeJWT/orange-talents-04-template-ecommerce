@@ -1,4 +1,4 @@
-package br.com.zupacademy.guilhermesantos.mercadolivre.anotation;
+package br.com.zupacademy.guilhermesantos.mercadolivre.exception;
 
 public class GenerationExceptionClass extends RuntimeException{
 

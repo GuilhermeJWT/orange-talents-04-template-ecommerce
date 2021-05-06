@@ -1,4 +1,4 @@
-package br.com.zupacademy.guilhermesantos.mercadolivre.anotation;
+package br.com.zupacademy.guilhermesantos.mercadolivre.exception;
 
 import java.util.Arrays;
 import java.util.List;
