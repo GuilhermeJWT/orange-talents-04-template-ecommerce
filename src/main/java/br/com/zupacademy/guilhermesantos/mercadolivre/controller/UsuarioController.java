@@ -1,10 +1,9 @@
 package br.com.zupacademy.guilhermesantos.mercadolivre.controller;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,20 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.zupacademy.guilhermesantos.mercadolivre.dto.ModelUsuarioDTO;
 import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelUsuario;
+import br.com.zupacademy.guilhermesantos.mercadolivre.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping(value = "/usuario")
 public class UsuarioController {
 	
-	@PersistenceContext
-	private EntityManager manager;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 	
 	@PostMapping(value = "/salvar")
 	@Transactional
 	public ResponseEntity<ModelUsuarioDTO> salvaUsuario(@RequestBody @Valid ModelUsuarioDTO modelUsuarioDTO){
 		
 		ModelUsuario modelUsuario = modelUsuarioDTO.converter();
-		manager.persist(modelUsuario);
+		usuarioRepository.save(modelUsuario);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 		
