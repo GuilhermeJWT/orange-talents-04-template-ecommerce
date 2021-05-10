@@ -13,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import br.com.zupacademy.guilhermesantos.mercadolivre.dto.SenhaCriptografadaDTO;
+
 @Entity
 @Table(name = "usuario")
 public class ModelUsuario implements Serializable {
@@ -33,9 +35,9 @@ public class ModelUsuario implements Serializable {
 
 	private LocalDateTime dataRegistro = LocalDateTime.now();
 	
-	public ModelUsuario(String login, String senha) {
+	public ModelUsuario(String login, SenhaCriptografadaDTO senha) {
 		this.login = login;
-		this.senha = senha;
+		this.senha = senha.criptografaSenha();
 	}
 	
 	@Deprecated

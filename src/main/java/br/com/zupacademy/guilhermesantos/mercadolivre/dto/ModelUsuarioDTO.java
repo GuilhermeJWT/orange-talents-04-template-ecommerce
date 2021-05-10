@@ -5,10 +5,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import br.com.zupacademy.guilhermesantos.mercadolivre.anotation.GenericUniqueColumn;
 import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelUsuario;
 
 public class ModelUsuarioDTO {
 	
+	@GenericUniqueColumn(domainClass = ModelUsuario.class, fieldName = "login", message = "E-mail já Cadastrado! Informe Outro")
 	@NotEmpty(message = "O Login deve ser Informado!")
 	@Email(message = "Formato de E-mail Inválido!")
 	private String login;
@@ -18,7 +20,7 @@ public class ModelUsuarioDTO {
 	private String senha;
 	
 	public ModelUsuario converter() {
-		return new ModelUsuario(this.login, this.senha);
+		return new ModelUsuario(this.login, new SenhaCriptografadaDTO(senha));
 	}
 	
 	public ModelUsuarioDTO(String login, String senha) {
