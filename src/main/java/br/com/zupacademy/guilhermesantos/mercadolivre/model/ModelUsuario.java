@@ -2,6 +2,9 @@ package br.com.zupacademy.guilhermesantos.mercadolivre.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,11 +16,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import br.com.zupacademy.guilhermesantos.mercadolivre.dto.SenhaCriptografadaDTO;
 
 @Entity
 @Table(name = "usuario")
-public class ModelUsuario implements Serializable {
+public class ModelUsuario implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,14 +41,67 @@ public class ModelUsuario implements Serializable {
 
 	private LocalDateTime dataRegistro = LocalDateTime.now();
 	
+	private List<ModelPerfil> perfis = new ArrayList<>();
+
 	public ModelUsuario(String login, SenhaCriptografadaDTO senha) {
 		this.login = login;
 		this.senha = senha.criptografaSenha();
 	}
 	
+	public String getLogin() {
+		return login;
+	}
+	
+	public String getSenha() {
+		return senha;
+	}
+	
+	public LocalDateTime getDataRegistro() {
+		return dataRegistro;
+	}
+	
+	public List<ModelPerfil> getPerfis() {
+		return perfis;
+	}
+
 	@Deprecated
 	public ModelUsuario() {
-		
+
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.perfis;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.login;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 
 }
