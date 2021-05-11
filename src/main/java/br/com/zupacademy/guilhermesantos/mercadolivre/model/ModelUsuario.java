@@ -7,9 +7,11 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -41,6 +43,7 @@ public class ModelUsuario implements UserDetails {
 
 	private LocalDateTime dataRegistro = LocalDateTime.now();
 	
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<ModelPerfil> perfis = new ArrayList<>();
 
 	public ModelUsuario(String login, SenhaCriptografadaDTO senha) {
