@@ -1,5 +1,7 @@
 package br.com.zupacademy.guilhermesantos.mercadolivre.dto;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 public class ModelLoginDTO {
 
 	private String login;
@@ -19,6 +21,10 @@ public class ModelLoginDTO {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public UsernamePasswordAuthenticationToken converte() {
+		return new UsernamePasswordAuthenticationToken(login, senha);
 	}
 
 }
