@@ -46,6 +46,7 @@ public class EnableWebSecurityConfiguration extends WebSecurityConfigurerAdapter
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers("/usuario/**").permitAll()
 		.antMatchers("/categoria/**").permitAll()
+		.antMatchers("/actuator/**").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
