@@ -1,82 +1,96 @@
 package br.com.zupacademy.guilhermesantos.mercadolivre.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.com.zupacademy.guilhermesantos.mercadolivre.dto.ModelCaracteristicaDTO;
 
 @Entity
 @Table(name = "produto")
 public class ModelProdutos implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @NotEmpty(message = "O Nome deve ser informado!")
-    private String nome;
+	@NotEmpty(message = "O Nome deve ser informado!")
+	private String nome;
 
-    @NotNull(message = "A Quantidade deve ser Informada!")
-    @Positive(message = "A Quantidade deve ser maior que 0!")
-    private int quantidade;
+	@NotNull(message = "A Quantidade deve ser Informada!")
+	@Positive(message = "A Quantidade deve ser maior que 0!")
+	private int quantidade;
 
-    @NotEmpty(message = "A Descrição deve ser Informada!")
-    @Size(max = 1000, message = "A Descrição deve ter no máximo 1000 Caracteres")
-    private String descricao;
+	@NotEmpty(message = "A Descrição deve ser Informada!")
+	@Size(max = 1000, message = "A Descrição deve ter no máximo 1000 Caracteres")
+	private String descricao;
 
-    @NotNull(message = "O Valor deve ser Informado!")
-    @Positive(message = "O Valor deve ser maior que 0!")
-    private BigDecimal valor;
+	@NotNull(message = "O Valor deve ser Informado!")
+	@Positive(message = "O Valor deve ser maior que 0!")
+	private BigDecimal valor;
 
-    private LocalDateTime dataRegistro = LocalDateTime.now();
+	private LocalDateTime dataRegistro = LocalDateTime.now();
+	
+	@JsonIgnore
+	@ManyToOne(optional = false)
+	private ModelCategoria idCategoria;
 
-    @JsonIgnore
-    @ManyToOne(optional = false)
-    private ModelCategoria idCategoria;
+	public ModelProdutos(String nome, int quantidade, String descricao, BigDecimal valor, ModelCategoria idCategoria, List<ModelCaracteristicaDTO> caracteristicas) {
+		this.nome = nome;
+		this.quantidade = quantidade;
+		this.descricao = descricao;
+		this.valor = valor;
+		this.idCategoria = idCategoria;
+	}
 
-    public ModelProdutos(String nome, int quantidade, String descricao, BigDecimal valor, ModelCategoria idCategoria){
-        this.nome = nome;
-        this.quantidade = quantidade;
-        this.descricao = descricao;
-        this.valor = valor;
-        this.idCategoria = idCategoria;
-    }
+	@Deprecated
+	public ModelProdutos() {
 
-    @Deprecated
-    public ModelProdutos(){
+	}
 
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public int getQuantidade() {
+		return quantidade;
+	}
 
-    public int getQuantidade() {
-        return quantidade;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public String getDescricao() {
-        return descricao;
-    }
+	public BigDecimal getValor() {
+		return valor;
+	}
 
-    public BigDecimal getValor() {
-        return valor;
-    }
+	public ModelCategoria getIdCategoria() {
+		return idCategoria;
+	}
 
-    public ModelCategoria getIdCategoria() {
-        return idCategoria;
-    }
+	public LocalDateTime getDataRegistro() {
+		return dataRegistro;
+	}
 
 }
