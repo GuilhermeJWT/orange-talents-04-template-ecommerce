@@ -1,25 +1,17 @@
-package br.com.zupacademy.guilhermesantos.mercadolivre.model;
+package br.com.zupacademy.guilhermesantos.mercadolivre.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.com.zupacademy.guilhermesantos.mercadolivre.anotation.GenericValidExistId;
+import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelCategoria;
+import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelProdutos;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "produto")
-public class ModelProdutos implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ModelProdutosDTO {
 
     @NotEmpty(message = "O Nome deve ser informado!")
     private String nome;
@@ -36,27 +28,21 @@ public class ModelProdutos implements Serializable {
     @Positive(message = "O Valor deve ser maior que 0!")
     private BigDecimal valor;
 
-    private LocalDateTime dataRegistro = LocalDateTime.now();
+    @GenericValidExistId(domainClass = ModelCategoria.class, fieldName = "id", message = "Categoria não Encontrada, Informe Outra!")
+    @NotNull(message = "A Categoria deve ser Informada!")
+    private Long idCategoria;
 
-    @JsonIgnore
-    @ManyToOne(optional = false)
-    private ModelCategoria idCategoria;
+    public ModelProdutos converte(EntityManager manager){
+        ModelCategoria categoriaId = manager.find(ModelCategoria.class, idCategoria);
+        return new ModelProdutos(nome, quantidade, descricao, valor, categoriaId);
+    }
 
-    public ModelProdutos(String nome, int quantidade, String descricao, BigDecimal valor, ModelCategoria idCategoria){
+    public ModelProdutosDTO(String nome, int quantidade, String descricao, BigDecimal valor, Long idCategoria){
         this.nome = nome;
         this.quantidade = quantidade;
         this.descricao = descricao;
         this.valor = valor;
         this.idCategoria = idCategoria;
-    }
-
-    @Deprecated
-    public ModelProdutos(){
-
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getNome() {
@@ -75,8 +61,7 @@ public class ModelProdutos implements Serializable {
         return valor;
     }
 
-    public ModelCategoria getIdCategoria() {
+    public Long getIdCategoria() {
         return idCategoria;
     }
-
 }
