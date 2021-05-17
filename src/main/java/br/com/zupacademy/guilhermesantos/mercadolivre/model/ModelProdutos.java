@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,12 +51,13 @@ public class ModelProdutos implements Serializable {
 	private BigDecimal valor;
 
 	private LocalDateTime dataRegistro = LocalDateTime.now();
-	
+
 	@JsonIgnore
 	@ManyToOne(optional = false)
 	private ModelCategoria idCategoria;
-
-	public ModelProdutos(String nome, int quantidade, String descricao, BigDecimal valor, ModelCategoria idCategoria, List<ModelCaracteristicaDTO> caracteristicas) {
+	
+	public ModelProdutos(String nome, int quantidade, String descricao, BigDecimal valor, ModelCategoria idCategoria,
+			List<ModelCaracteristicaDTO> caracteristicas) {
 		this.nome = nome;
 		this.quantidade = quantidade;
 		this.descricao = descricao;

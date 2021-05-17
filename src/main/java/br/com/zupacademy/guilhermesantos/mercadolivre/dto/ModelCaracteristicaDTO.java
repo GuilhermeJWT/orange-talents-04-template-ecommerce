@@ -2,6 +2,9 @@ package br.com.zupacademy.guilhermesantos.mercadolivre.dto;
 
 import javax.validation.constraints.NotEmpty;
 
+import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelCaracteristica;
+import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelProdutos;
+
 public class ModelCaracteristicaDTO {
 	
 	@NotEmpty(message = "O Nome da Caracteristica deve ser Informado!")
@@ -29,6 +32,10 @@ public class ModelCaracteristicaDTO {
 	
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public ModelCaracteristica converte(ModelProdutos produto) {
+		return new ModelCaracteristica(nome, descricao, produto);
 	}
 
 }
