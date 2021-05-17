@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -56,6 +58,9 @@ public class ModelProdutos implements Serializable {
 	@ManyToOne(optional = false)
 	private ModelCategoria idCategoria;
 	
+	@OneToMany(mappedBy = "modelProdutos", cascade = CascadeType.MERGE)
+	private Set<ModelImagensProduto> fotos = new HashSet<>();
+	
 	public ModelProdutos(String nome, int quantidade, String descricao, BigDecimal valor, ModelCategoria idCategoria,
 			List<ModelCaracteristicaDTO> caracteristicas) {
 		this.nome = nome;
@@ -96,6 +101,11 @@ public class ModelProdutos implements Serializable {
 
 	public LocalDateTime getDataRegistro() {
 		return dataRegistro;
+	}
+
+	public void salvaImagensProdutos(Set<String> links) {
+		Set<ModelImagensProduto> fotos = links.stream().map(link ->new ModelImagensProduto(this, link)).collect(Collectors.toSet());
+		this.fotos.addAll(fotos);
 	}
 
 }
