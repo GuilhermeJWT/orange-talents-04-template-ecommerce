@@ -32,5 +32,5 @@ public class ModelPerfil implements GrantedAuthority{
 	public String getAuthority() {
 		return nome;
 	}
-
+	
 }

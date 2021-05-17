@@ -1,18 +1,22 @@
 package br.com.zupacademy.guilhermesantos.mercadolivre.util;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
-public class UploadFotoProduto {
+@Primary
+public class UploadFotoProduto implements UploadFoto{
 
-	public List<String> salvaFotos(List<MultipartFile> fotosProdutos){
-		return (List<String>) fotosProdutos.stream()
-				.map(foto -> "http://bucket.io/"
-		        + foto.getOriginalFilename()).collect(Collectors.toSet());
-	}
+	   public Set<String> salvaFotos(List<MultipartFile> imagens) {
+	        return imagens.stream()
+	                .map(i -> "http://bucket.io/"+
+	                i.getOriginalFilename())
+	                .collect(Collectors.toSet());
+	    }
 	
 }
