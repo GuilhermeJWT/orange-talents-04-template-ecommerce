@@ -44,6 +44,8 @@ public class ModelUsuario implements UserDetails {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<ModelPerfil> perfis = new ArrayList<>();
+	
+	private ModelUsuario userLogado;
 
 	public ModelUsuario(String login, SenhaCriptografadaDTO senha) {
 		this.login = login;
@@ -69,7 +71,15 @@ public class ModelUsuario implements UserDetails {
 	public List<ModelPerfil> getPerfis() {
 		return perfis;
 	}
-
+	
+	public ModelUsuario getUserLogado() {
+		return userLogado;
+	}
+	
+	public ModelUsuario get() {
+		return userLogado;
+	}
+	
 	@Deprecated
 	public ModelUsuario() {
 

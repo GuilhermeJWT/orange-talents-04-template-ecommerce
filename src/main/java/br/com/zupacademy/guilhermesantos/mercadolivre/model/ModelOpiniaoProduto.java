@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "opiniao")
@@ -26,10 +25,8 @@ public class ModelOpiniaoProduto implements Serializable {
 	private String titulo;
 
 	@NotEmpty(message = "A Descrição deve ser Informada!")
-	@Size(max = 500, message = "A Descrição deve ter no Máximo 500 Caracteres!")
 	private String descricao;
 
-	@Size(min = 1, max = 5, message = "A Nota deve ser Entre 1 - 5!")
 	private int nota;
 
 	@ManyToOne(optional = false)
