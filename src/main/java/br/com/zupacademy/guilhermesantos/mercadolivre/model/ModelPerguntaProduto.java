@@ -43,7 +43,6 @@ public class ModelPerguntaProduto implements Serializable{
 		this.titulo = titulo;
 		this.produtos = produtos;
 		this.usuario = usuario;
-		
 	}
 	
 	@Deprecated
@@ -69,6 +68,10 @@ public class ModelPerguntaProduto implements Serializable{
 
 	public ModelUsuario getUsuario() {
 		return usuario;
+	}
+	
+	public ModelUsuario getProprietario() {
+		return produtos.getUsuario();
 	}
 
 	@Override
