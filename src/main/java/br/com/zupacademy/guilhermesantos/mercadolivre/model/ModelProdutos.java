@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -55,13 +56,22 @@ public class ModelProdutos implements Serializable {
 	@JsonIgnore
 	@ManyToOne(optional = false)
 	private ModelCategoria idCategoria;
-	
+
 	@ManyToOne
 	private ModelUsuario usuario;
 
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+	private Set<ModelCaracteristica> caracteristicas = new HashSet<>();
+
 	@OneToMany(mappedBy = "modelProdutos", cascade = CascadeType.MERGE)
 	private Set<ModelImagensProduto> fotos = new HashSet<>();
-	
+
+	@OneToMany(mappedBy = "produtos", cascade = CascadeType.MERGE)
+	private Set<ModelPerguntaProduto> perguntas = new HashSet<>();
+
+	@OneToMany(mappedBy = "produtos", cascade = CascadeType.MERGE)
+	private Set<ModelOpiniaoProduto> opinioes = new HashSet<>();
+
 	public ModelProdutos(String nome, int quantidade, String descricao, BigDecimal valor, ModelCategoria idCategoria,
 			List<ModelCaracteristicaDTO> caracteristicas) {
 		this.nome = nome;
@@ -99,11 +109,11 @@ public class ModelProdutos implements Serializable {
 	public ModelCategoria getIdCategoria() {
 		return idCategoria;
 	}
-	
+
 	public ModelUsuario getUsuario() {
 		return usuario;
 	}
-	
+
 	public LocalDateTime getDataRegistro() {
 		return dataRegistro;
 	}
@@ -112,12 +122,24 @@ public class ModelProdutos implements Serializable {
 		return fotos;
 	}
 
+	public Set<ModelCaracteristica> getCaracteristicas() {
+		return caracteristicas;
+	}
+
+	public Set<ModelPerguntaProduto> getPerguntas() {
+		return perguntas;
+	}
+
+	public Set<ModelCaracteristica> recuperaCaracteristicas() {
+		return (Set<ModelCaracteristica>) this.caracteristicas;
+	}
+
 	public void salvaImagensProdutos(Set<String> links) {
 		Set<ModelImagensProduto> fotos = links.stream().map(link -> new ModelImagensProduto(this, link))
 				.collect(Collectors.toSet());
 		this.fotos.addAll(fotos);
 	}
-	
+
 	public boolean pertenceUsuario(ModelUsuario fotosProdutoUsuario) {
 		return this.usuario.equals(fotosProdutoUsuario);
 	}
@@ -145,6 +167,22 @@ public class ModelProdutos implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public <T> Set<T> mapCaracteristicas(Function<ModelCaracteristica, T> funcaoMapeadora) {
+		return this.caracteristicas.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
+
+	public <T> Set<T> mapImagens(Function<ModelImagensProduto, T> funcaoMapeadora) {
+		return this.fotos.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
+
+	public <T> Set<T> mapPerguntas(Function<ModelPerguntaProduto, T> funcaoMapeadora) {
+		return this.perguntas.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
+
+	public <T> Set<T> mapOpinioes(Function<ModelOpiniaoProduto, T> funcaoMapeadora) {
+		return this.opinioes.stream().map(funcaoMapeadora).collect(Collectors.toSet());
 	}
 
 }

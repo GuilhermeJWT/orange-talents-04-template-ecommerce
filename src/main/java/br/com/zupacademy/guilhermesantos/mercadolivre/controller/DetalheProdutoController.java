@@ -2,6 +2,7 @@ package br.com.zupacademy.guilhermesantos.mercadolivre.controller;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ public class DetalheProdutoController {
 	private EntityManager manager;
 	
 	@GetMapping(value = "/produto/{id}")
+	@Transactional
 	public ModelDetalheProdutoDTO recuperaPaginaDetalhe(@PathVariable("id") Long id) {
 		
 		ModelProdutos modelProdutos = manager.find(ModelProdutos.class, id);
