@@ -52,6 +52,7 @@ public class EnableWebSecurityConfiguration extends WebSecurityConfigurerAdapter
 		.antMatchers("/detalhe/**").permitAll()
 		.antMatchers("/categoria/**").permitAll()
 		.antMatchers("/actuator/**").permitAll()
+		.antMatchers("/fechamentocompra/**").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

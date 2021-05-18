@@ -22,6 +22,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import org.springframework.util.Assert;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.zupacademy.guilhermesantos.mercadolivre.dto.ModelCaracteristicaDTO;
@@ -183,6 +185,18 @@ public class ModelProdutos implements Serializable {
 
 	public <T> Set<T> mapOpinioes(Function<ModelOpiniaoProduto, T> funcaoMapeadora) {
 		return this.opinioes.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
+
+	public boolean baixaEstoque(int quantidade) {
+		Assert.isTrue(quantidade > 0, "A Quantidade deve ser maior que 0!");
+		
+		if(quantidade <= this.quantidade) {
+			this.quantidade -= quantidade;
+			return true;
+		}
+		
+		return false;
+		
 	}
 
 }
