@@ -72,6 +72,18 @@ public class ModelCompra implements Serializable{
 		
 		this.transacoes.add(modelTransacao);
 	}
+	
+	public boolean processadaComSucesso() {
+		return transacoesConluidasComSucesso().isEmpty();
+	}
+	
+	private Set<ModelTransacao> transacoesConluidasComSucesso(){
+		Set<ModelTransacao> transacoesSucesso = this.transacoes.stream().filter(ModelTransacao :: concluidaComSucesso).collect(Collectors.toSet());
+		
+		Assert.isTrue(transacoesSucesso.size() <= 1, "OPS! Mais de uma Transação Conluida nessa Compra!");
+		
+		return transacoesSucesso;
+	}
 
 	@Deprecated
 	public ModelCompra() {

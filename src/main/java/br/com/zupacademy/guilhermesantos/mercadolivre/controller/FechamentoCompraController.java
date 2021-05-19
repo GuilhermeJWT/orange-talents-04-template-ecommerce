@@ -2,6 +2,7 @@ package br.com.zupacademy.guilhermesantos.mercadolivre.controller;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.swing.JOptionPane;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -23,7 +24,6 @@ import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelProdutos;
 import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelUsuario;
 import br.com.zupacademy.guilhermesantos.mercadolivre.repository.UsuarioRepository;
 import br.com.zupacademy.guilhermesantos.mercadolivre.util.CalculaProcessamentoCompra;
-import br.com.zupacademy.guilhermesantos.mercadolivre.util.ModelRetornoGatewayPagamento;
 
 @RestController
 @RequestMapping(value = "/fechamentocompra")
@@ -82,6 +82,20 @@ public class FechamentoCompraController {
 	@Transactional
 	public String salvaFechamento2PayPal(@PathVariable("id") Long idCompra,@RequestBody @Valid ModelPayPalDTO modelPayPalDTO) {
 		return calculaProcessamentoCompra.processaPagamentos(idCompra, modelPayPalDTO);
+	}
+	
+	/*Simula uma Api de Nota fiscal, Tipo TECNOSPEED, SEFAZ, retorno meio parecido*/
+	@PostMapping(value = "/notafiscal")
+	@Transactional
+	public void simulaApiNotaFiscal(@RequestBody Long idCompra, Long idComprador) {
+		JOptionPane.showMessageDialog(null, "Nota Criada com Sucesso para Compra: " + idCompra + " Comprador: " + idComprador);
+	}
+	
+	/*Simula um envio para Api Ranking*/
+	@PostMapping(value = "/rankingvendedor")
+	@Transactional
+	public void simulaApiRanking(@RequestBody Long idCompra, Long idVendedor) {
+		JOptionPane.showMessageDialog(null, "Sucesso Procesamento Rank");
 	}
 	
 }
