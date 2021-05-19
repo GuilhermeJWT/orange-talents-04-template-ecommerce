@@ -16,11 +16,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zupacademy.guilhermesantos.mercadolivre.dto.ModelCompraDTO;
 import br.com.zupacademy.guilhermesantos.mercadolivre.dto.ModelPagSeguroDTO;
+import br.com.zupacademy.guilhermesantos.mercadolivre.dto.ModelPayPalDTO;
 import br.com.zupacademy.guilhermesantos.mercadolivre.enums.PagamentoGateway;
 import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelCompra;
 import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelProdutos;
 import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelUsuario;
 import br.com.zupacademy.guilhermesantos.mercadolivre.repository.UsuarioRepository;
+import br.com.zupacademy.guilhermesantos.mercadolivre.util.ModelRetornoGatewayPagamento;
 
 @RestController
 @RequestMapping(value = "/fechamentocompra")
@@ -69,9 +71,18 @@ public class FechamentoCompraController {
 	@PostMapping(value = "/fechamento2/retorno-pagseguro/{id}")
 	@Transactional
 	public String salvaFechamento2PagSeguro(@PathVariable("id") Long idCompra,@RequestBody @Valid ModelPagSeguroDTO modelPagSeguroDTO) {
-		
+		return processa(idCompra, modelPagSeguroDTO);
+	}
+	
+	@PostMapping(value = "/fechamento2/retorno-paypal/{id}")
+	@Transactional
+	public String salvaFechamento2PayPal(@PathVariable("id") Long idCompra,@RequestBody @Valid ModelPayPalDTO modelPayPalDTO) {
+		return processa(idCompra, modelPayPalDTO);
+	}
+	
+	private String processa(Long idCompra,  ModelRetornoGatewayPagamento modelRetornoGatewayPagamento) {
 		ModelCompra compraFeita = manager.find(ModelCompra.class, idCompra);
-		compraFeita.processaPagamentoCompra(modelPagSeguroDTO);
+		compraFeita.processaPagamentoCompra(modelRetornoGatewayPagamento);
 		
 		manager.merge(compraFeita);
 		

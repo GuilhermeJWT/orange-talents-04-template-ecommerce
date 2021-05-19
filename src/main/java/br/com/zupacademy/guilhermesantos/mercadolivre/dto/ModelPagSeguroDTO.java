@@ -5,8 +5,9 @@ import javax.validation.constraints.NotNull;
 import br.com.zupacademy.guilhermesantos.mercadolivre.enums.StatusResponsePagSeguro;
 import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelCompra;
 import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelTransacao;
+import br.com.zupacademy.guilhermesantos.mercadolivre.util.ModelRetornoGatewayPagamento;
 
-public class ModelPagSeguroDTO {
+public class ModelPagSeguroDTO implements ModelRetornoGatewayPagamento{
 
 	@NotNull(message = "O ID da Transação deve ser Informado!")
 	private String idTransacao;

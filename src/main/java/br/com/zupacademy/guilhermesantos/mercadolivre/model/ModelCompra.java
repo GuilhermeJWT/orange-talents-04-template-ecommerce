@@ -21,8 +21,8 @@ import javax.validation.constraints.Positive;
 
 import org.springframework.util.Assert;
 
-import br.com.zupacademy.guilhermesantos.mercadolivre.dto.ModelPagSeguroDTO;
 import br.com.zupacademy.guilhermesantos.mercadolivre.enums.PagamentoGateway;
+import br.com.zupacademy.guilhermesantos.mercadolivre.util.ModelRetornoGatewayPagamento;
 
 @Entity
 @Table(name = "compra")
@@ -62,15 +62,15 @@ public class ModelCompra implements Serializable{
 		this.pagamentoGateway = pagamentoGateway;
 	}
 	
-	public void processaPagamentoCompra(@Valid ModelPagSeguroDTO modelPagSeguroDTO) {
-		ModelTransacao modelTransacao = modelPagSeguroDTO.toTransacao(this);
+	public void processaPagamentoCompra(@Valid ModelRetornoGatewayPagamento retornoPagamentoGateway) {
+		ModelTransacao modelTransacao = retornoPagamentoGateway.toTransacao(this);
 		
 		Assert.isTrue(!this.transacoes.contains(modelTransacao), "OPS! já Existe uma Trasação semelhante a essa!" + modelTransacao);
 		Set<ModelTransacao> transacoesSucesso = this.transacoes.stream().filter(ModelTransacao :: concluidaComSucesso).collect(Collectors.toSet());
 		
 		Assert.isTrue(transacoesSucesso.isEmpty(), "Essa Compra já foi Concluida com Suceso!");
 		
-		this.transacoes.add(modelPagSeguroDTO.toTransacao(this));
+		this.transacoes.add(modelTransacao);
 	}
 
 	@Deprecated
