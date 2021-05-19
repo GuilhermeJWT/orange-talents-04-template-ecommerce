@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zupacademy.guilhermesantos.mercadolivre.dto.ModelCompraDTO;
+import br.com.zupacademy.guilhermesantos.mercadolivre.dto.ModelPagSeguroDTO;
 import br.com.zupacademy.guilhermesantos.mercadolivre.enums.PagamentoGateway;
 import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelCompra;
 import br.com.zupacademy.guilhermesantos.mercadolivre.model.ModelProdutos;
@@ -62,6 +64,13 @@ public class FechamentoCompraController {
 
 		throw exception;
 
+	}
+	
+	@PostMapping(value = "/fechamento2/retorno-pagseguro/{id}")
+	@Transactional
+	public ModelPagSeguroDTO salvaFechamento2PagSeguro(@PathVariable("id") Long idCompra, @Valid ModelPagSeguroDTO modelPagSeguroDTO) {
+		
+		return modelPagSeguroDTO;
 	}
 
 }
