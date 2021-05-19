@@ -1,7 +1,11 @@
 package br.com.zupacademy.guilhermesantos.mercadolivre.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,11 +13,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.springframework.util.Assert;
+
+import br.com.zupacademy.guilhermesantos.mercadolivre.dto.ModelPagSeguroDTO;
 import br.com.zupacademy.guilhermesantos.mercadolivre.enums.PagamentoGateway;
 
 @Entity
@@ -43,12 +51,31 @@ public class ModelCompra implements Serializable{
 	@Enumerated(EnumType.STRING)
 	@NotNull(message = "O Modo de Pagamento deve ser Informado!")
 	private PagamentoGateway pagamentoGateway;
+
+	@OneToMany(mappedBy = "modelCompra", cascade = CascadeType.MERGE, orphanRemoval = true)
+	private Set<ModelTransacao> transacoes = new HashSet<>();
 	
 	public ModelCompra(ModelProdutos produtoComprado, int quantidade, ModelUsuario usuarioComprador, PagamentoGateway pagamentoGateway) {
 		this.produtoComprado = produtoComprado;
 		this.quantidade = quantidade;
 		this.usuarioComprador = usuarioComprador;
 		this.pagamentoGateway = pagamentoGateway;
+	}
+	
+	public void processaPagamentoCompra(@Valid ModelPagSeguroDTO modelPagSeguroDTO) {
+		ModelTransacao modelTransacao = modelPagSeguroDTO.toTransacao(this);
+		
+		Assert.isTrue(!this.transacoes.contains(modelTransacao), "OPS! já Existe uma Trasação semelhante a essa!" + modelTransacao);
+		Set<ModelTransacao> transacoesSucesso = this.transacoes.stream().filter(ModelTransacao :: concluidaComSucesso).collect(Collectors.toSet());
+		
+		Assert.isTrue(transacoesSucesso.isEmpty(), "Essa Compra já foi Concluida com Suceso!");
+		
+		this.transacoes.add(modelPagSeguroDTO.toTransacao(this));
+	}
+
+	@Deprecated
+	public ModelCompra() {
+		
 	}
 	
 	public Long getId() {
@@ -69,6 +96,31 @@ public class ModelCompra implements Serializable{
 	
 	public PagamentoGateway getPagamentoGateway() {
 		return pagamentoGateway;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ModelCompra other = (ModelCompra) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 	
 }

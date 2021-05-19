@@ -68,9 +68,14 @@ public class FechamentoCompraController {
 	
 	@PostMapping(value = "/fechamento2/retorno-pagseguro/{id}")
 	@Transactional
-	public ModelPagSeguroDTO salvaFechamento2PagSeguro(@PathVariable("id") Long idCompra, @Valid ModelPagSeguroDTO modelPagSeguroDTO) {
+	public String salvaFechamento2PagSeguro(@PathVariable("id") Long idCompra,@RequestBody @Valid ModelPagSeguroDTO modelPagSeguroDTO) {
 		
-		return modelPagSeguroDTO;
+		ModelCompra compraFeita = manager.find(ModelCompra.class, idCompra);
+		compraFeita.processaPagamentoCompra(modelPagSeguroDTO);
+		
+		manager.merge(compraFeita);
+		
+		return "Deu tudo Certo";
 	}
 
 }
