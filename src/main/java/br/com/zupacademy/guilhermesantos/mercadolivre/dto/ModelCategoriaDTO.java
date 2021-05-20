@@ -2,6 +2,7 @@ package br.com.zupacademy.guilhermesantos.mercadolivre.dto;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.util.Assert;
 
@@ -14,6 +15,7 @@ public class ModelCategoriaDTO {
 	@NotEmpty(message = "O Nome deve ser Informado!")
 	private String nome;
 	
+	@NotNull(message = "O ID da Categoria deve ser Informado!")
 	private Long idCategoriaMae;
 	
 	public ModelCategoria converte(EntityManager manager) {

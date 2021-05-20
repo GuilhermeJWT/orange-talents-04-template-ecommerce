@@ -11,6 +11,7 @@ public class ModelCompraDTO {
 	private Long id;
 	
 	@Positive(message = "A Quantidade deve ser maior que 1!")
+	@NotNull(message = "A Quantidade deve ser Informada!")
 	private int quantidade;
 	
 	@NotNull(message = "O Modo de Pagamento deve ser Informado!")

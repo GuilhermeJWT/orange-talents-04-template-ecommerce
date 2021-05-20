@@ -82,6 +82,34 @@ public class ModelProdutos implements Serializable {
 		this.valor = valor;
 		this.idCategoria = idCategoria;
 	}
+	
+	public boolean baixaEstoque(int quantidade) {
+		Assert.isTrue(quantidade > 0, "A Quantidade deve ser maior que 0!");
+		
+		if(quantidade <= this.quantidade) {
+			this.quantidade -= quantidade;
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	public <T> Set<T> mapCaracteristicas(Function<ModelCaracteristica, T> funcaoMapeadora) {
+		return this.caracteristicas.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
+
+	public <T> Set<T> mapImagens(Function<ModelImagensProduto, T> funcaoMapeadora) {
+		return this.fotos.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
+
+	public <T> Set<T> mapPerguntas(Function<ModelPerguntaProduto, T> funcaoMapeadora) {
+		return this.perguntas.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
+
+	public <T> Set<T> mapOpinioes(Function<ModelOpiniaoProduto, T> funcaoMapeadora) {
+		return this.opinioes.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
 
 	@Deprecated
 	public ModelProdutos() {
@@ -169,34 +197,6 @@ public class ModelProdutos implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public <T> Set<T> mapCaracteristicas(Function<ModelCaracteristica, T> funcaoMapeadora) {
-		return this.caracteristicas.stream().map(funcaoMapeadora).collect(Collectors.toSet());
-	}
-
-	public <T> Set<T> mapImagens(Function<ModelImagensProduto, T> funcaoMapeadora) {
-		return this.fotos.stream().map(funcaoMapeadora).collect(Collectors.toSet());
-	}
-
-	public <T> Set<T> mapPerguntas(Function<ModelPerguntaProduto, T> funcaoMapeadora) {
-		return this.perguntas.stream().map(funcaoMapeadora).collect(Collectors.toSet());
-	}
-
-	public <T> Set<T> mapOpinioes(Function<ModelOpiniaoProduto, T> funcaoMapeadora) {
-		return this.opinioes.stream().map(funcaoMapeadora).collect(Collectors.toSet());
-	}
-
-	public boolean baixaEstoque(int quantidade) {
-		Assert.isTrue(quantidade > 0, "A Quantidade deve ser maior que 0!");
-		
-		if(quantidade <= this.quantidade) {
-			this.quantidade -= quantidade;
-			return true;
-		}
-		
-		return false;
-		
 	}
 
 }

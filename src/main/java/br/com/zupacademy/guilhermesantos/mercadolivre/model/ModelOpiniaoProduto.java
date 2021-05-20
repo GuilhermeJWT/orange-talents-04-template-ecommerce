@@ -54,40 +54,20 @@ public class ModelOpiniaoProduto implements Serializable {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getTitulo() {
 		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public String getDescricao() {
 		return descricao;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
 	public int getNota() {
 		return nota;
 	}
 
-	public void setNota(int nota) {
-		this.nota = nota;
-	}
-
 	public ModelProdutos getProduto() {
 		return produtos;
-	}
-
-	public void setProduto(ModelProdutos produto) {
-		this.produtos = produto;
 	}
 
 	public ModelUsuario getUsuarioComprador() {

@@ -1,7 +1,6 @@
 package br.com.zupacademy.guilhermesantos.mercadolivre.model;
 
 import java.io.Serializable;
-import java.util.stream.Stream;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

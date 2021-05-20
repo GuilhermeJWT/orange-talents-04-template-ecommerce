@@ -21,12 +21,19 @@ public class ExceptionHandlerControllerAdvice {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public RestApiErrorsException exibeErrosParaCliente(MethodArgumentNotValidException methodArgumentNotValidException) {
+	public RestApiErrorsException exibeErrosParaCliente(
+			MethodArgumentNotValidException methodArgumentNotValidException) {
 		List<String> errors = methodArgumentNotValidException.getBindingResult().getAllErrors().stream()
 				.map(erro -> erro.getDefaultMessage()).collect(Collectors.toList());
 
 		return new RestApiErrorsException(errors);
 
+	}
+
+	@ExceptionHandler(RecursoNaoEncontradoException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public RestApiErrorsException handlePedidoNotFoundException(RecursoNaoEncontradoException recursoNaoEncontrado) {
+		return new RestApiErrorsException(recursoNaoEncontrado.getMessage());
 	}
 
 }

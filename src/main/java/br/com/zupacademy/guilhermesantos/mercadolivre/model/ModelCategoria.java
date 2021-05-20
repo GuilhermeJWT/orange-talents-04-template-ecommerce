@@ -23,7 +23,7 @@ public class ModelCategoria implements Serializable{
 	@NotEmpty(message = "O Nome deve ser Informado!")
 	private String nome;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private ModelCategoria maeCategoria;
 	
 	public ModelCategoria(String nome) {
